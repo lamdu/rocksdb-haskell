@@ -1,5 +1,6 @@
 {-# LANGUAGE BinaryLiterals      #-}
 {-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE TemplateHaskell     #-}
 
 module Main where
 
@@ -15,6 +16,9 @@ import           Database.RocksDB             (Compression (..), DB, compression
 import           Test.Hspec                   (describe, hspec, it, shouldReturn)
 import           Test.QuickCheck              (Arbitrary (..), UnicodeString (..),
                                                generate)
+
+-- Invocate Template Haskell
+pure []
 
 initializeDB :: MonadResource m => FilePath -> m DB
 initializeDB path =
