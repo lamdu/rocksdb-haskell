@@ -26,7 +26,6 @@ module Database.RocksDB.Internal
     , mkComparator
     , mkCompareFun
     , mkCreateFilterFun
-    , mkFilterPolicy
     , mkKeyMayMatchFun
     , mkOpts
 
@@ -192,17 +191,6 @@ mkKeyMayMatchFun g = g'
         f' <- BS.packCStringLen (f, fromInteger . toInteger $ flen)
         return . boolToNum $ g k' f'
 
-
-mkFilterPolicy :: FilterPolicy -> IO FilterPolicy'
-mkFilterPolicy FilterPolicy{..} =
-    withCString fpName $ \cs -> do
-        cname  <- mkName $ const cs
-        cdest  <- mkDest $ const ()
-        ccffun <- mkCF . mkCreateFilterFun $ createFilter
-        ckmfun <- mkKMM . mkKeyMayMatchFun $ keyMayMatch
-        cfp    <- c_rocksdb_filterpolicy_create nullPtr cdest ccffun ckmfun cname
-
-        return $ FilterPolicy' ccffun ckmfun cdest cname cfp
 
 freeFilterPolicy :: FilterPolicy' -> IO ()
 freeFilterPolicy (FilterPolicy' ccffun ckmfun cdest cname cfp) = do
