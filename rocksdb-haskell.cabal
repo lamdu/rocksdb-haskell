@@ -54,6 +54,9 @@ library
 
   extra-libraries:  rocksdb
 
+  if os(darwin) && arch(aarch64)
+    extra-lib-dirs: /opt/homebrew/lib
+
 test-suite rocksdb-tests
   ghc-options: -Wall
   main-is: tests.hs
