@@ -55,6 +55,7 @@ library
   extra-libraries:  rocksdb
 
   if os(darwin) && arch(aarch64)
+    include-dirs: /opt/homebrew/include
     extra-lib-dirs: /opt/homebrew/lib
 
 test-suite rocksdb-tests
